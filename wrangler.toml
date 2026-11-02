@@ -1,0 +1,13 @@
+name = "policy-eval-mobile"
+main = "cloudflare/app.js"
+compatibility_date = "2026-10-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*", "/"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "policy-eval-db"
+database_id = "7b846856-3979-4ab8-a541-daafcba47def"
