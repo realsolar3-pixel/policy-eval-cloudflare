@@ -1,3 +1,4 @@
+import {ensureAdmin} from './bootstrap.js';
 const norm=x=>String(x||'').trim().replace(/\s+/g,'').toLowerCase();
 const defaults={threshold:70,products:[],evaluators:[],round:'',roundEvaluators:{},links:{}};
 const enc=new TextEncoder();
@@ -28,6 +29,11 @@ async function handle(req,env){
  let b={};if(m!=='GET'){try{b=await req.json()}catch{return fail('JSON 요청이 필요합니다')}}
  const user=await auth(req,db);
  if(p==='/api/login'&&m==='POST'){
+  if(b.role==='admin'){
+   try {await ensureAdmin(env)} catch(e){console.error('Admin bootstrap failed',e);return fail('관리자 계정 생성 실패: '+String(e?.message||e).slice(0,150),500)}
+   const count=await get(db,"SELECT COUNT(*) AS n FROM users WHERE role='admin'");
+   if(!count?.n)return fail('관리자 계정 미생성: 런타임 변수 또는 DB 설정 확인',503);
+  }
   const name=String(b.name||''),code=String(b.code||''),role=b.role;
   if(!name||!code||!['admin','evaluator'].includes(role))return fail('인증정보 필요');
   const person=await get(db,'SELECT * FROM users WHERE normalized=? AND role=?',norm(name),role);
