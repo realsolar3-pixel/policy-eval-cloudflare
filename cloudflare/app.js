@@ -4,6 +4,17 @@ import {renderQr} from './qr.js';
 import {exportResults} from './export.js';
 export default {async fetch(req,env,ctx){
  const url=new URL(req.url),path=url.pathname;
+ if(path==='/api/setup-check'&&req.method==='GET'){
+  let adminCount=null,dbError=null;
+  try {if(env.DB){const r=await env.DB.prepare("SELECT COUNT(*) AS n FROM users WHERE role='admin'").first();adminCount=r?.n??0;}}
+  catch(e){dbError='DB query failed';}
+  return new Response(JSON.stringify({
+   dbConnected:!!env.DB,
+   adminNameConfigured:!!String(env.BOOTSTRAP_ADMIN_NAME||'').trim(),
+   adminCodeConfigured:typeof env.BOOTSTRAP_ADMIN_CODE==='string'&&env.BOOTSTRAP_ADMIN_CODE.length>=12,
+   adminCount,dbError
+  }),{headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
+ }
  if(path==='/api/login'&&req.method==='POST'){const data=await req.clone().json().catch(()=>({}));if(data.role==='admin')await ensureAdmin(env)}
  if(path!=='/api/admin/qr.svg'&&path!=='/api/admin/export.xlsx')return base.fetch(req,env,ctx);
  const check=await base.fetch(new Request(new URL('/api/me',url),{headers:req.headers}),env,ctx);
