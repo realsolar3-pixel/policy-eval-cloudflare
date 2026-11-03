@@ -7,7 +7,7 @@ const sha=async s=>hex(await crypto.subtle.digest('SHA-256',enc.encode(s)));
 const salt=()=>hex(crypto.getRandomValues(new Uint8Array(16)));
 const pin4=()=>String(crypto.getRandomValues(new Uint16Array(1))[0]%10000).padStart(4,'0');
 const scryptNote='Cloudflare uses PBKDF2-SHA256 for new accounts; Railway scrypt hashes require credential reset on migration.';
-async function hash(s,sl){const k=await crypto.subtle.importKey('raw',enc.encode(s),'PBKDF2',false,['deriveBits']);return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(sl),iterations:210000,hash:'SHA-256'},k,256))}
+async function hash(s,sl){const k=await crypto.subtle.importKey('raw',enc.encode(s),'PBKDF2',false,['deriveBits']);return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(sl),iterations:100000,hash:'SHA-256'},k,256))}
 const json=(v,status=200,headers={})=>new Response(JSON.stringify(v),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store',...headers}});
 const fail=(m,s=400)=>json({error:m},s);
 const get=async(db,sql,...p)=>db.prepare(sql).bind(...p).first();
