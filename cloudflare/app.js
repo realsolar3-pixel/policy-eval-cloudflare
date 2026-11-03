@@ -15,7 +15,7 @@ export default {async fetch(req,env,ctx){
    adminCount,dbError
   }),{headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
  }
- if(path==='/api/login'&&req.method==='POST'){const data=await req.clone().json().catch(()=>({}));if(data.role==='admin')await ensureAdmin(env)}
+ if(path==='/api/login'&&req.method==='POST'){const data=await req.clone().json().catch(()=>({}));if(data.role==='admin'){try{await ensureAdmin(env)}catch(e){return new Response(JSON.stringify({error:'관리자 계정 초기화 실패',stage:'bootstrap',type:e?.name||'Error',detail:String(e?.message||'').slice(0,180)}),{status:500,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})}}}
  if(path!=='/api/admin/qr.svg'&&path!=='/api/admin/export.xlsx')return base.fetch(req,env,ctx);
  const check=await base.fetch(new Request(new URL('/api/me',url),{headers:req.headers}),env,ctx);
  const me=await check.json().catch(()=>({}));
