@@ -11,3 +11,5 @@ run_worker_first = ["/api/*", "/"]
 binding = "DB"
 database_name = "policy-eval-db"
 database_id = "7b846856-3979-4ab8-a541-daafcba47def"
+
+# Redeploy trigger after bootstrap admin environment variable configuration.
