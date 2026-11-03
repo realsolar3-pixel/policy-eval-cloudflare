@@ -1,6 +1,6 @@
 import {ensureAdmin} from './bootstrap.js';
 const norm=x=>String(x||'').trim().replace(/\s+/g,'').toLowerCase();
-const defaults={threshold:70,products:[],evaluators:[],round:'',roundEvaluators:{},links:{}};
+const defaults={threshold:70,products:[],evaluators:[],round:'',roundEvaluators:{},links:{},templates:[]};
 const enc=new TextEncoder();
 const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
 const sha=async s=>hex(await crypto.subtle.digest('SHA-256',enc.encode(s)));
@@ -57,11 +57,11 @@ async function handle(req,env){
   if(user.role!=='admin')return fail('관리자 권한이 필요합니다',403);
   if(p==='/api/admin/state'&&m==='GET'){const s=await state(db),rows=await all(db,'SELECT data FROM responses'),results={};for(const r of rows){const d=JSON.parse(r.data);results[norm(d.evaluator)+'|'+d.round]=d}return json({...s,results})}
   if(p==='/api/admin/state'&&m==='PUT'){
-   const {threshold,products,evaluators,round,roundEvaluators,links}=b;
+   const {threshold,products,evaluators,round,roundEvaluators,links,templates}=b;
    if(!Number.isInteger(threshold)||threshold<0||threshold>200||!Array.isArray(products)||!Array.isArray(evaluators)||products.length>200||evaluators.length>300||!roundEvaluators||typeof roundEvaluators!=='object'||Array.isArray(roundEvaluators))return fail('설정 형식 오류');
    for(const names of Object.values(roundEvaluators)){if(!Array.isArray(names)||new Set(names.map(norm)).size!==names.length||names.some(n=>!evaluators.some(e=>norm(e.name)===norm(n))))return fail('회차별 평가위원 명단 오류')}
    const ids=new Set();for(const prod of products){if(!prod.id||!prod.name||!prod.round||ids.has(prod.id)||!prod.stages?.s3||!prod.stages?.s4)return fail('상품 설정 오류');ids.add(prod.id);if(prod.eligibleEvaluators!==undefined&&(!Array.isArray(prod.eligibleEvaluators)||prod.eligibleEvaluators.some(n=>!evaluators.some(e=>norm(e.name)===norm(n)))))return fail('평가위원 지정 오류');for(const k of ['s3','s4'])if(!Array.isArray(prod.stages[k].items))return fail('평가항목 설정 오류')}
-   await run(db,'UPDATE app_state SET data=? WHERE id=1',JSON.stringify({threshold,products,evaluators,round,roundEvaluators,links:links||{}}));
+   await run(db,'UPDATE app_state SET data=? WHERE id=1',JSON.stringify({threshold,products,evaluators,round,roundEvaluators,links:links||{},templates:Array.isArray(templates)?templates:[]}));
    for(const e of evaluators)if(e.name)await makeUser(db,e.name,'evaluator',pin4());
    return json({ok:true});
   }
