@@ -55,3 +55,11 @@ main.admin-main{max-width:1160px;margin:24px auto 70px;padding:0 18px}.admin-mai
 
 /* Per-round evaluator roster */
 .admin-main .roster-round-label{display:block;max-width:420px;margin:16px 0;font-weight:800;color:#1e4169;font-size:15px}.admin-main #rosterRound{font-size:18px;font-weight:800;color:#173c68;border:2px solid #a3b9d3}
+
+/* Evaluation form: make unanswered scores unmistakable */
+.eval-stage-mobile .eval-question{border:1px solid #d7e3f3;border-radius:12px;background:#f5f9ff;margin:12px 0;padding:16px}
+.eval-stage-mobile .eval-question-label{font-size:16px;font-weight:800;color:#193d70;margin-bottom:10px}
+.eval-stage-mobile input.eval-score-mobile{font-size:20px;font-weight:800;border:2px solid #6e9ed6;background:#fff;min-height:52px}
+.eval-stage-mobile input.eval-score-mobile.eval-score-missing{border:2px solid #e19a3a;background:#fff8ec;box-shadow:0 0 0 2px #fff0d6}
+.eval-stage-mobile .eval-missing-target{outline:3px solid #e19a3a;outline-offset:4px;border-radius:8px}
+.eval-stage-mobile .eval-question:has(.eval-score-missing){border-color:#e6bc79;background:#fffbf4}
