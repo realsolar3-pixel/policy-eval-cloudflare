@@ -1,4 +1,4 @@
-name = "policy-eval-mobile"
+name = "policy-eval-cloudflare"
 main = "cloudflare/app.js"
 compatibility_date = "2026-10-01"
 
