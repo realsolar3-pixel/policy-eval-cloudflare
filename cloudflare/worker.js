@@ -62,7 +62,8 @@ async function handle(req,env){
    for(const names of Object.values(roundEvaluators)){if(!Array.isArray(names)||new Set(names.map(norm)).size!==names.length||names.some(n=>!evaluators.some(e=>norm(e.name)===norm(n))))return fail('회차별 평가위원 명단 오류')}
    const ids=new Set();for(const prod of products){if(!prod.id||!prod.name||!prod.round||ids.has(prod.id)||!prod.stages?.s3||!prod.stages?.s4)return fail('상품 설정 오류');ids.add(prod.id);if(prod.eligibleEvaluators!==undefined&&(!Array.isArray(prod.eligibleEvaluators)||prod.eligibleEvaluators.some(n=>!evaluators.some(e=>norm(e.name)===norm(n)))))return fail('평가위원 지정 오류');for(const k of ['s3','s4'])if(!Array.isArray(prod.stages[k].items))return fail('평가항목 설정 오류')}
    await run(db,'UPDATE app_state SET data=? WHERE id=1',JSON.stringify({threshold,products,evaluators,round,roundEvaluators,links:links||{},templates:Array.isArray(templates)?templates:[]}));
-   for(const e of evaluators)if(e.name)await makeUser(db,e.name,'evaluator',pin4());
+   const existing=new Set((await all(db,"SELECT normalized FROM users WHERE role='evaluator'")).map(x=>x.normalized));
+   for(const e of evaluators)if(e.name&&!existing.has(norm(e.name))){await makeUser(db,e.name,'evaluator',pin4());existing.add(norm(e.name))}
    return json({ok:true});
   }
   if(p==='/api/admin/round-access'&&m==='GET')return json({rounds:(await all(db,'SELECT round FROM round_access ORDER BY round')).map(x=>x.round)});
