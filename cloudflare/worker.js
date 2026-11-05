@@ -69,7 +69,7 @@ async function handle(req,env){
   if(p==='/api/admin/round-access'&&m==='GET')return json({rounds:(await all(db,'SELECT round FROM round_access ORDER BY round')).map(x=>x.round)});
   if(p==='/api/admin/round-access'&&m==='PUT'){
    const round=String(b.round||'').trim(),code=String(b.code||'');if(!round||code.length<6||code.length>100)return fail('회차와 6자 이상 공통 비밀번호를 입력해 주세요');
-   if(!(await state(db)).products.some(x=>x.round===round))return fail('등록된 회차만 설정할 수 있습니다');
+   {const st=await state(db);if(!st.products.some(x=>x.round===round)&&!Object.keys(st.roundEvaluators||{}).includes(round))return fail('등록된 회차만 설정할 수 있습니다')}
    const sl=salt();await run(db,'INSERT INTO round_access(round,salt,code_hash) VALUES(?,?,?) ON CONFLICT(round) DO UPDATE SET salt=excluded.salt,code_hash=excluded.code_hash',round,sl,await hash(code,sl));await run(db,"DELETE FROM sessions WHERE auth_round=?",round);return json({ok:true});
   }
   if(p==='/api/admin/round-status'&&m==='GET')return json({statuses:Object.fromEntries((await all(db,'SELECT round,status FROM round_status')).map(x=>[x.round,x.status]))});
