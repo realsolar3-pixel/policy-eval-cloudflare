@@ -5,7 +5,7 @@
 - **부(minor)**: 화면·기능 추가
 - **수(patch)**: 오류 수정·문구 수정
 
-각 버전은 GitHub **태그(Tags)**와 **릴리스(Releases)**로 남깁니다. 앱 화면 맨 아래에 현재 버전이 표시됩니다(`public/common.js`의 `APP_VERSION`).
+각 버전은 GitHub에 **`release/버전` 브랜치**(예: `release/v1.1.0`)로 보관합니다. 이 브랜치는 그 버전의 코드 사진(스냅샷)이라 수정하지 않습니다. 앱 화면 맨 아래에 현재 버전이 표시됩니다(`public/common.js`의 `APP_VERSION`).
 
 | 버전 | 날짜 | 내용 |
 |---|---|---|
@@ -26,17 +26,18 @@
 "v1.1.0으로 되돌려줘"라고 요청하면 아래를 수행합니다.
 ```bash
 git checkout main
-git revert --no-edit v1.1.0..HEAD   # v1.1.0 이후 변경을 취소하는 새 커밋 생성(기록은 보존)
+git revert --no-edit origin/release/v1.1.0..HEAD   # v1.1.0 이후 변경을 취소하는 새 커밋 생성(기록은 보존)
 git push origin main
 ```
 - 기록을 지우지 않고 "취소 커밋"을 쌓는 방식이라, 다시 최신 버전으로 돌아가는 것도 가능합니다.
 
 ### C. 특정 버전 파일만 확인하기
-GitHub 저장소 → **Tags** 또는 **Releases** → 원하는 버전 → **Browse files** / **Source code (zip)** 다운로드
+GitHub 저장소 → 브랜치 선택 메뉴(`main` 버튼) → `release/v1.1.0` 등 선택 → 파일 확인, 또는 **Code → Download ZIP**
 
 ---
 
 ## 새 버전을 올리는 순서
 1. 변경 작업 → 미리보기 확인
 2. `public/common.js`의 `APP_VERSION`과 이 파일의 표를 새 버전으로 수정
-3. 커밋 → `main`에 푸시 → 태그 `vX.Y.Z` 생성·푸시 → GitHub 릴리스 작성
+3. 커밋 → `main`에 푸시 → 같은 커밋으로 `release/vX.Y.Z` 브랜치 생성·푸시
+4. (선택) GitHub 화면에서 Releases → Draft a new release로 태그·릴리스 작성
