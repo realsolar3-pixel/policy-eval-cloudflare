@@ -221,3 +221,129 @@ header.ev-head h1{font-weight:800;letter-spacing:-.03em}
 .ev-main .eval-question-answer,.ev-main label,.admin-main label{font-weight:600}
 .ev-userbar .muted,.ev-main .eval-qual-head p,.ev-main .eval-quant-note,.ev-main p{font-weight:400}
 .admin-main h2{font-weight:800}
+
+/* ===== Evaluator form v3 — 정량/정성 구분 · 기준점 게이지 · 문항 요약 · 절차 도식 ===== */
+/* ① 정량: 잠긴 회색 패널 */
+.ev-main .eval-quant-box{position:relative;padding:16px 18px 14px;border-radius:16px;background:repeating-linear-gradient(135deg,#F4F5F7 0 10px,#EEF0F3 10px 20px);border:1.5px dashed var(--g300)}
+.eval-quant-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.eval-quant-label{font-size:15px;font-weight:700;color:var(--g700)}
+.eval-lock-badge{font-size:12px;font-weight:700;color:var(--g600);background:#fff;border:1px solid var(--g200);padding:4px 9px;border-radius:999px;white-space:nowrap}
+.eval-quant-num{margin-top:6px;font-variant-numeric:tabular-nums;color:var(--g600)}
+.eval-quant-num strong{font-size:30px;font-weight:800;color:var(--g800);letter-spacing:-.02em}
+.eval-quant-num span{font-size:17px;font-weight:600}
+.ev-main .eval-quant-box .eval-quant-note{margin:4px 0 0;font-size:13px;color:var(--g500)}
+
+/* ② 정성: 머리 + 항목 요약 */
+.ev-main .eval-qual-head{margin:22px 0 10px;padding-top:0;border-top:0}
+.ev-main .eval-qual-title{display:flex;align-items:center;gap:8px}
+.ev-main .eval-qual-title strong{font-size:17px;font-weight:700;color:var(--blue-deep)}
+.ev-main .eval-qual-badge{background:var(--blue);color:#fff;font-size:12px;padding:4px 9px;border-radius:999px}
+.ev-main .eval-qual-head p{margin:6px 0 0;font-size:14.5px;color:var(--g600)}
+.eval-item-summary{list-style:none;margin:0 0 6px;padding:6px;background:var(--blue-50);border-radius:16px;display:flex;flex-direction:column;gap:4px}
+.ev-main .eval-item-chip{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;margin:0;padding:10px 12px;background:#fff;color:var(--g800);border:0;border-radius:12px;font-size:15px;font-weight:600;text-align:left}
+.ev-main .eval-item-chip:hover{background:#fff;box-shadow:0 0 0 1.5px var(--blue-100) inset}
+.chip-no{display:grid;place-items:center;flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--g200);color:var(--g700);font-size:13px;font-weight:800}
+.chip-name{flex:1;min-width:0;line-height:1.35}
+.chip-state{flex-shrink:0;font-size:12.5px;font-weight:700;color:#B45309;background:var(--orange-50);padding:3px 8px;border-radius:999px}
+.eval-item-chip.is-done .chip-no{background:var(--blue);color:#fff}
+.eval-item-chip.is-done .chip-state{color:var(--blue);background:var(--blue-50)}
+
+/* 문항 카드: 번호·제목 / • 설명 / 입력 */
+.ev-main .eval-stage-mobile .eval-question{padding:18px 18px 16px}
+.ev-main .eval-stage-mobile .eval-question-label{display:flex;align-items:flex-start;gap:10px;margin:0 0 6px;font-size:18px;font-weight:700;line-height:1.4}
+.q-no{display:grid;place-items:center;flex-shrink:0;width:28px;height:28px;margin-top:-1px;border-radius:9px;background:var(--blue);color:#fff;font-size:15px;font-weight:800}
+.q-title{flex:1;min-width:0}
+.q-max{flex-shrink:0;font-size:13px;font-weight:700;color:var(--g500);background:var(--g100);padding:4px 8px;border-radius:8px;margin-top:1px}
+.eval-question-points{margin:4px 0 14px 38px;padding:0;list-style:none}
+.eval-question-points li{position:relative;padding-left:14px;font-size:15.5px;font-weight:400;line-height:1.6;color:var(--g700)}
+.eval-question-points li::before{content:'';position:absolute;left:0;top:.68em;width:5px;height:5px;border-radius:50%;background:var(--g400)}
+.ev-main .eval-question-answer{margin-top:10px!important}
+
+/* ③ 총점 게이지 */
+.ev-main .eval-gauge{margin-top:16px;padding:16px 18px 14px;background:#fff;border:1.5px solid var(--g200);border-radius:16px;color:var(--g800);text-align:left;font-size:15px}
+.gauge-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.gauge-head span{font-size:14.5px;font-weight:700;color:var(--g700)}
+.gauge-head strong{font-size:22px;font-weight:800;color:var(--g900);font-variant-numeric:tabular-nums}
+.gauge-bar{position:relative;height:16px;margin:30px 0 10px;background:var(--g100);border-radius:999px}
+.gauge-bar i{position:absolute;top:0;bottom:0;transition:width .25s var(--ease,ease),left .25s var(--ease,ease)}
+.seg-quant{left:0;border-radius:999px 0 0 999px;background:repeating-linear-gradient(135deg,#9AA3AF 0 6px,#AEB6C0 6px 12px)}
+.seg-qual{background:var(--blue);border-radius:0 999px 999px 0}
+.gauge-mark{position:absolute;top:-8px;bottom:-8px;width:0;border-left:2.5px solid var(--g900)}
+.gauge-mark em{position:absolute;bottom:100%;left:0;transform:translateX(-50%);margin-bottom:3px;font-style:normal;font-size:12px;font-weight:800;white-space:nowrap;color:#fff;background:var(--g900);padding:2px 7px;border-radius:6px}
+.gauge-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:13px;font-weight:600;color:var(--g600)}
+.gauge-legend span{display:inline-flex;align-items:center;gap:6px}
+.lg-quant::before,.lg-qual::before{content:'';width:12px;height:12px;border-radius:3px}
+.lg-quant::before{background:repeating-linear-gradient(135deg,#9AA3AF 0 3px,#AEB6C0 3px 6px)}
+.lg-qual::before{background:var(--blue)}
+.lg-rule{margin-left:auto;color:var(--g700)}
+.eval-gauge.is-below{border-color:#F5B971;background:#FFFBF5}
+.eval-gauge.is-below .lg-rule{color:#B45309}
+.eval-gauge.is-below .gauge-head strong{color:#B45309}
+.eval-gauge.is-pass{border-color:#9FDCC3}
+.eval-gauge.is-pass .lg-rule,.eval-gauge.is-pass .gauge-head strong{color:#07704A}
+
+/* ④ 찬반 */
+.ev-main .eval-mobile-vote .muted{background:var(--orange-50);color:#B45309;border-radius:12px;font-weight:700}
+
+/* 평가 절차 도식 */
+.ev-flow{margin-top:22px;padding:18px 16px;background:var(--g50);border-radius:18px}
+.flow-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.flow-title strong{font-size:16px;font-weight:800;color:var(--g900)}
+.flow-title span{font-size:12.5px;font-weight:700;color:var(--g500)}
+.flow-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.flow-step{position:relative;display:flex;gap:12px;padding:0 0 14px}
+.flow-step:not(:last-child)::after{content:'';position:absolute;left:15px;top:32px;bottom:2px;width:2px;background:var(--g200)}
+.flow-no{display:grid;place-items:center;flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--g200);color:var(--g600);font-weight:800;font-size:15px;z-index:1}
+.flow-step.is-mine .flow-no{background:var(--blue);color:#fff;box-shadow:0 0 0 4px var(--blue-50)}
+.flow-step>div{flex:1;min-width:0;padding-top:4px}
+.flow-step b{font-size:15.5px;font-weight:700;color:var(--g900)}
+.flow-step p{margin:2px 0 0!important;font-size:13.5px;color:var(--g600)}
+.flow-step.is-pre b{color:var(--g600)}
+.flow-tbd{display:inline-block;color:#B45309!important;background:var(--orange-50);padding:1px 7px;border-radius:6px;font-weight:600}
+.flow-calc{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.flow-calc>span{font-size:13px;font-weight:700}
+.fc-quant,.fc-qual,.fc-sum{display:inline-flex;flex-direction:column;align-items:center;line-height:1.25;padding:6px 10px;border-radius:10px}
+.fc-quant small,.fc-qual small{font-size:11px;font-weight:600;opacity:.8}
+.fc-quant{background:repeating-linear-gradient(135deg,#F4F5F7 0 6px,#EBEDF0 6px 12px);color:var(--g700);border:1px dashed var(--g300)}
+.fc-qual{background:var(--blue);color:#fff}
+.fc-sum{background:var(--g900);color:#fff;justify-content:center;min-height:38px}
+.fc-op{color:var(--g500)}
+.flow-rule{margin-top:4px;padding:14px;background:#fff;border-radius:14px}
+.fr-head{font-size:14px;font-weight:700;color:var(--g700);text-align:center;margin-bottom:10px}
+.fr-split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fr-split>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 8px;border-radius:12px;text-align:center}
+.fr-split b{font-size:14px;font-weight:800}
+.fr-split span{font-size:13px;font-weight:600}
+.fr-pass{background:var(--green-50);color:#07704A}
+.fr-vote{background:var(--orange-50);color:#B45309}
+.fr-note{margin:10px 0 0!important;font-size:12.5px;color:var(--g500);text-align:center}
+.ev-flow-toggle{margin:14px 0 0;background:#fff;border-radius:16px;padding:4px 16px}
+.ev-flow-toggle summary{cursor:pointer;padding:12px 0;font-size:15px;font-weight:700;color:var(--g700);list-style:none}
+.ev-flow-toggle summary::-webkit-details-marker{display:none}
+.ev-flow-toggle summary::after{content:'▾';float:right;color:var(--g500)}
+.ev-flow-toggle[open] summary::after{content:'▴'}
+.ev-flow-toggle .ev-flow{margin:0 0 14px;background:var(--g50)}
+/* 절차 도식 v2 (운영기준 반영) */
+.flow-roles{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 14px}
+.flow-roles span{font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px}
+.role-dept{background:var(--g200);color:var(--g700)}
+.role-me{background:var(--blue);color:#fff}
+.flow-step.is-pre .flow-no{background:var(--g300);color:#fff}
+.flow-step.is-pre b{color:var(--g800)}
+.flow-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.flow-tags span{font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px;line-height:1.4}
+.tag-dept{background:var(--g200);color:var(--g700)}
+.tag-pass{background:var(--green-50);color:#07704A}
+.flow-cut{width:100%;margin-top:8px;border-collapse:separate;border-spacing:0;font-size:12.5px;background:#fff;border:1px solid var(--g200);border-radius:10px;overflow:hidden}
+.flow-cut th,.flow-cut td{padding:6px 8px;border-bottom:1px solid var(--g100);text-align:left}
+.flow-cut th{background:var(--g50);color:var(--g600);font-weight:700}
+.flow-cut td{color:var(--g800)}
+.flow-cut td+td,.flow-cut th+th{text-align:right;white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums}
+.flow-cut tr:last-child td{border-bottom:0}
+.fr-split span{line-height:1.45}
+.fr-final{margin-top:10px;padding:11px 12px;border-radius:12px;background:var(--g900);color:#fff;font-size:13.5px;font-weight:600;text-align:center;line-height:1.5}
+.fr-final b{font-weight:800}
+.ev-main .eval-question-answer span.is-warn{color:#C9303D}
+.ev-main .ev-flow-toggle .flow-ok{width:100%;margin:0 0 14px}
+.ev-flow-toggle[open]{box-shadow:0 0 0 2px var(--blue-100) inset}
+.app-version{text-align:center;font-size:12px;color:var(--g400);padding:18px 0 28px;letter-spacing:0}
