@@ -72,3 +72,152 @@ main.admin-main{max-width:1160px;margin:24px auto 70px;padding:0 18px}.admin-mai
 .eval-qual-badge{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:#1565d8;border-radius:999px;padding:3px 10px;line-height:1.4}
 .eval-qual-head p{margin:6px 0 0;font-size:13.5px;color:#4a6584;line-height:1.5}
 .eval-quant-note{margin:-6px 2px 4px;font-size:12.5px;color:#6b7a8c;line-height:1.5}
+
+/* ===== Design refresh 2026-11 — IBK 블루 + 그레이 스케일, 가독성 우선 ===== */
+:root{
+ --blue:#0A64C8;--blue-press:#0852A6;--blue-deep:#063B82;--blue-50:#EDF4FD;--blue-100:#D7E7FB;--sky:#1FA2E8;
+ --g900:#191F28;--g800:#333D4B;--g700:#4E5968;--g600:#6B7684;--g500:#8B95A1;--g400:#B0B8C1;--g300:#D1D6DB;--g200:#E5E8EB;--g100:#F2F4F6;--g50:#F9FAFB;
+ --green:#00A86B;--green-50:#E7F7F0;--red:#F04452;--red-50:#FDEEF0;--orange:#F57800;--orange-50:#FFF4E6;
+ --font:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',system-ui,sans-serif;
+ --ink:var(--g900);--muted:var(--g600);--line:var(--g200);--accent:var(--blue);--pale:var(--blue-50);--bg:var(--g100)
+}
+body{font-family:var(--font);background:var(--g100);color:var(--g900);letter-spacing:-.2px;-webkit-font-smoothing:antialiased;word-break:keep-all}
+input,select,textarea,button{font-family:var(--font)}
+.muted{color:var(--g600)}
+.bad{color:#C9303D}.good{color:#07704A}
+
+/* ── 공통 헤더 (평가위원·로그인) ── */
+header.ev-head{background:#fff;color:var(--g900);padding:0;border-bottom:1px solid var(--g200)}
+.ev-head-in{max-width:640px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.ev-mark{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border-radius:12px;background:linear-gradient(140deg,var(--sky),var(--blue));color:#fff;font-size:12px;font-weight:800;letter-spacing:-.3px}
+.ev-eyebrow{display:block;font-size:12.5px;font-weight:600;color:var(--g500);line-height:1.3}
+header.ev-head h1{font-size:18px;font-weight:700;margin:1px 0 0;line-height:1.3;letter-spacing:-.4px}
+
+/* ── 평가위원 본문 ── */
+main.ev-main{max-width:640px;margin:0 auto;padding:16px 16px 120px}
+main.ev-narrow{max-width:460px}
+.ev-main .card{background:#fff;border:0;border-radius:20px;padding:22px 20px;margin:0 0 12px;box-shadow:none}
+.ev-main h2{font-size:20px;font-weight:700;line-height:1.4;letter-spacing:-.4px;margin:0 0 14px;color:var(--g900)}
+.ev-main h3{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.ev-main label{font-size:14px;font-weight:600;color:var(--g700)}
+.ev-main input,.ev-main select{min-height:52px;font-size:17px;color:var(--g900);background:var(--g50);border:1.5px solid var(--g200);border-radius:14px;padding:12px 14px;margin:8px 0 16px;transition:border-color .15s,background .15s}
+.ev-main input:focus,.ev-main select:focus{outline:0;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-50)}
+.ev-main button{min-height:50px;background:var(--blue);color:#fff;border:0;border-radius:14px;padding:13px 18px;margin:4px 0;font-size:16px;font-weight:700;letter-spacing:-.2px;transition:background .15s,transform .15s}
+.ev-main button:hover{background:var(--blue-press)}
+.ev-main button:active{transform:scale(.98)}
+.ev-main button.secondary{background:var(--g100);color:var(--g700);font-weight:600}
+.ev-main button.secondary:hover{background:var(--g200)}
+.ev-main form button{width:100%;margin-top:4px}
+.ev-main p{line-height:1.6}
+#notice{margin:0 0 12px;font-size:15px;line-height:1.55;font-weight:600}
+#notice:empty{display:none}
+#notice.good,#notice.bad{padding:14px 16px;border-radius:14px}
+#notice.good{background:var(--blue-50);color:var(--blue-deep)}
+#notice.bad{background:var(--red-50);color:#C9303D}
+
+/* 사용자 바 */
+.ev-userbar .row{justify-content:space-between;flex-wrap:nowrap}
+.ev-userbar b{font-size:17px;font-weight:700}
+.ev-userbar button.secondary{min-height:38px;padding:8px 14px;font-size:14px;margin:0}
+.ev-userbar .muted{margin:10px 0 0;font-size:14.5px;color:var(--g600)}
+
+/* 상품 목록 */
+.ev-list-title{margin:22px 4px 10px!important;font-size:15px!important;font-weight:600!important;color:var(--g600)!important}
+.ev-main .eval-product-item{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:72px;margin:0 0 10px;padding:18px 20px;background:#fff;color:var(--g900);border:0;border-radius:20px;text-align:left}
+.ev-main .eval-product-item:hover{background:#fff;box-shadow:0 0 0 2px var(--blue-100) inset}
+.ev-main .eval-product-title{font-size:17px;font-weight:700;line-height:1.45;letter-spacing:-.3px}
+.ev-main .eval-product-status{flex-shrink:0;font-size:13px;font-weight:700;padding:6px 11px;border-radius:999px;background:var(--orange-50);color:#B45309}
+.ev-main .eval-product-item.is-done .eval-product-status{background:var(--green-50);color:#07704A}
+.ev-main #sheets>p.muted{text-align:center;font-size:14px;margin:6px 0 0}
+.ev-main #submit{position:sticky;bottom:16px;width:100%;min-height:56px;font-size:17px;margin-top:18px;box-shadow:0 8px 24px rgba(10,100,200,.25)}
+
+/* 상품 평가 화면 */
+.ev-main #sheets>button.secondary:first-child{min-height:40px;padding:8px 14px;font-size:14px;margin:4px 0 0}
+.ev-main .eval-product-heading{margin:14px 0 16px;padding:22px 20px;background:#fff;border-radius:20px;font-size:22px;font-weight:700;line-height:1.4;letter-spacing:-.5px;color:var(--g900);text-align:left}
+.ev-main .eval-stage-mobile{padding:22px 20px!important;margin:0 0 14px}
+.ev-main .eval-stage-mobile h3{display:flex;align-items:center;gap:8px;margin:0 0 16px;font-size:19px}
+.ev-main .eval-stage-mobile h3::before{content:'';width:4px;height:18px;border-radius:2px;background:var(--blue)}
+.ev-main .eval-stage-mobile .eval-quant{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0;padding:16px 18px;background:var(--g50);border:0;border-radius:14px;color:var(--g700);font-size:15px}
+.ev-main .eval-stage-mobile .eval-quant strong{font-size:20px;font-weight:700;color:var(--g900);font-variant-numeric:tabular-nums}
+.ev-main .eval-quant-note{margin:8px 4px 0;font-size:13.5px;color:var(--g500);line-height:1.5}
+.ev-main .eval-qual-head{margin:22px 0 6px;padding-top:20px;border-top:1px solid var(--g100)}
+.ev-main .eval-qual-title strong{font-size:18px;font-weight:700;color:var(--g900)}
+.ev-main .eval-qual-badge{font-size:12px;font-weight:700;background:var(--blue-50);color:var(--blue);padding:4px 9px;border-radius:8px}
+.ev-main .eval-qual-head p{font-size:14.5px;color:var(--g600);margin-top:6px}
+
+/* 정성 평가 문항 */
+.ev-main .eval-stage-mobile .eval-question{margin:10px 0;padding:18px;background:#fff;border:1.5px solid var(--g200);border-radius:16px}
+.ev-main .eval-stage-mobile .eval-question-label{font-size:17px;font-weight:600;line-height:1.6;color:var(--g900);margin:0 0 12px;letter-spacing:-.3px}
+.ev-main .eval-question-answer{gap:8px;font-size:14px;font-weight:600;color:var(--g600)}
+.ev-main .eval-stage-mobile input.eval-score-mobile{min-height:56px;margin:0!important;padding:12px 16px!important;font-size:22px!important;font-weight:700;color:var(--g900);background:var(--g50);border:1.5px solid var(--g200);border-radius:14px;font-variant-numeric:tabular-nums}
+.ev-main .eval-stage-mobile input.eval-score-mobile::placeholder{font-size:16px;font-weight:500;color:var(--g400)}
+.ev-main .eval-stage-mobile input.eval-score-mobile:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px var(--blue-50)}
+.ev-main .eval-stage-mobile input.eval-score-mobile.eval-score-missing{border-color:#F5B971;background:var(--orange-50);box-shadow:none}
+.ev-main .eval-stage-mobile .eval-question:has(.eval-score-missing){border-color:var(--g200);background:#fff}
+.ev-main .eval-stage-mobile .eval-missing-target{outline:3px solid var(--orange);outline-offset:3px;border-radius:14px}
+
+/* 합계·찬반 */
+.ev-main .eval-mobile-total{margin-top:16px;padding:18px;background:var(--blue-50);border-radius:14px;color:var(--blue-deep);font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.ev-main .eval-mobile-vote{padding:16px 0 0}
+.ev-main .eval-mobile-vote .muted{margin:0 0 10px;padding:12px 14px;background:var(--orange-50);color:#B45309;border-radius:12px;font-size:14.5px;font-weight:600}
+.ev-main .eval-vote-buttons{gap:10px}
+.ev-main .eval-vote-buttons button{min-height:56px;font-size:17px;font-weight:700;margin:0;background:#fff;color:var(--g700);border:1.5px solid var(--g300)}
+.ev-main .eval-vote-buttons button.selected-vote{background:var(--blue)!important;color:#fff!important;border-color:var(--blue)!important}
+.ev-main #sheets>button:last-child:not(.eval-product-item){width:100%;min-height:56px;font-size:17px;margin-top:6px}
+
+/* 제출 완료 */
+.ev-main .ev-success{text-align:center;padding:36px 20px}
+.ev-success-icon{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 14px;border-radius:50%;background:var(--green);color:#fff;font-size:28px;font-weight:700}
+.ev-success strong{display:block;font-size:21px;font-weight:700;line-height:1.45;letter-spacing:-.4px;color:var(--g900)}
+.ev-success p{margin:8px 0 0;font-size:15px;color:var(--g600)}
+
+@media(max-width:600px){
+ main.ev-main{padding:12px 12px 110px}
+ .ev-main .card,.ev-main .eval-stage-mobile{padding:20px 16px!important}
+ .ev-main .eval-stage-mobile .eval-question{padding:16px}
+ .ev-main .eval-stage-mobile .eval-question-label{font-size:16.5px}
+ .ev-main .eval-product-heading{font-size:20px}
+}
+
+/* ── 관리자 화면: 같은 색·글꼴 체계로 정돈 ── */
+header.topbar{border-bottom:1px solid var(--g200)}
+.brand-mark{background:linear-gradient(140deg,var(--sky),var(--blue));border-radius:12px}
+.eyebrow,.header-meta{color:var(--g500)}
+.role-label{background:var(--blue-50);color:var(--blue);font-weight:700;border-radius:6px}
+.admin-main{font-size:15px;color:var(--g900)}
+.admin-main .card{border:0;border-radius:16px;padding:24px 26px}
+.admin-main h2{font-size:19px;font-weight:700;letter-spacing:-.4px;color:var(--g900)}
+.admin-main h3{font-size:16px;font-weight:700}
+.admin-main label{font-size:14px;font-weight:600;color:var(--g700)}
+.admin-main input,.admin-main select,.admin-main textarea{font-size:15px;min-height:44px;border:1.5px solid var(--g200);border-radius:10px;background:var(--g50);color:var(--g900)}
+.admin-main input:focus,.admin-main select:focus,.admin-main textarea:focus{outline:0;border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px var(--blue-50)}
+.admin-main button{background:var(--blue);border-radius:10px;font-size:14px;font-weight:600;padding:10px 16px}
+.admin-main button:hover{background:var(--blue-press)}
+.admin-main button.secondary{background:#fff;color:var(--g700);border:1.5px solid var(--g200)}
+.admin-main button.secondary:hover{background:var(--g50);border-color:var(--g300)}
+.admin-main button.danger-action{background:#fff;color:#C9303D;border:1.5px solid #F3B6BC}
+.admin-nav{border-bottom:1px solid var(--g200)}
+.admin-main .admin-nav button{background:transparent;color:var(--g600);font-size:15px;font-weight:600;border:0;border-bottom:2px solid transparent;border-radius:0;margin:0;padding:13px 18px}
+.admin-main .admin-nav button:hover{background:transparent;color:var(--g900)}
+.admin-main .admin-nav button.active{border-bottom-color:var(--blue);color:var(--g900);font-weight:700}
+.admin-main .userbar{background:#fff;font-weight:600}
+.admin-main .kpi{border:0;background:var(--g50);border-radius:14px}
+.admin-main .kpi strong{color:var(--g900);font-size:30px}
+.admin-main .kpi span{font-size:13px;color:var(--g600)}
+.admin-main table{border:1px solid var(--g200);border-radius:12px;overflow:hidden;font-size:14px}
+.admin-main th{background:var(--g50);color:var(--g600);font-size:13px;font-weight:700}
+.admin-main td{color:var(--g800)}
+.admin-main td,.admin-main th{border-bottom:1px solid var(--g100);font-variant-numeric:tabular-nums}
+
+/* ===== Typography 2026-11 — Pretendard 4굵기(400·600·700·800) ===== */
+body{font-family:var(--font);font-weight:400;letter-spacing:-.01em;text-rendering:optimizeLegibility}
+h1,h2,h3,strong,b{letter-spacing:-.025em}
+.ev-main .eval-stage-mobile input.eval-score-mobile::placeholder{font-weight:400}
+.ev-main .eval-question-label,.ev-main .eval-stage-mobile .eval-question-label{font-weight:600;letter-spacing:-.02em}
+.ev-main .eval-product-heading{font-weight:800;letter-spacing:-.03em}
+.ev-main .eval-product-title{font-weight:700}
+header.ev-head h1{font-weight:800;letter-spacing:-.03em}
+.ev-main .eval-mobile-total,.ev-main .eval-quant strong,.ev-main input.eval-score-mobile,.admin-main .kpi strong{font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ev-main .eval-question-answer,.ev-main label,.admin-main label{font-weight:600}
+.ev-userbar .muted,.ev-main .eval-qual-head p,.ev-main .eval-quant-note,.ev-main p{font-weight:400}
+.admin-main h2{font-weight:800}
