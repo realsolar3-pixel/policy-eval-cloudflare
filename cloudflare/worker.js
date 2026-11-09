@@ -61,10 +61,12 @@ async function handle(req,env){
    if(!Number.isInteger(threshold)||threshold<0||threshold>200||!Array.isArray(products)||!Array.isArray(evaluators)||products.length>200||evaluators.length>300||!roundEvaluators||typeof roundEvaluators!=='object'||Array.isArray(roundEvaluators))return fail('설정 형식 오류');
    for(const names of Object.values(roundEvaluators)){if(!Array.isArray(names)||new Set(names.map(norm)).size!==names.length||names.some(n=>!evaluators.some(e=>norm(e.name)===norm(n))))return fail('회차별 평가위원 명단 오류')}
    const ids=new Set();for(const prod of products){if(!prod.id||!prod.name||!prod.round||ids.has(prod.id)||!prod.stages?.s3||!prod.stages?.s4)return fail('상품 설정 오류');ids.add(prod.id);if(prod.eligibleEvaluators!==undefined&&(!Array.isArray(prod.eligibleEvaluators)||prod.eligibleEvaluators.some(n=>!evaluators.some(e=>norm(e.name)===norm(n)))))return fail('평가위원 지정 오류');for(const k of ['s3','s4'])if(!Array.isArray(prod.stages[k].items))return fail('평가항목 설정 오류')}
-   await run(db,'UPDATE app_state SET data=? WHERE id=1',JSON.stringify({threshold,products,evaluators,round,roundEvaluators,links:links||{},templates:Array.isArray(templates)?templates:[]}));
+   const curRev=(await state(db)).rev||0;if(b.rev!==curRev)return fail('다른 화면에서 내용이 바뀌었습니다. 새로고침(F5)한 뒤 다시 저장해 주세요.',409);
+   const saved=await run(db,"UPDATE app_state SET data=? WHERE id=1 AND COALESCE(json_extract(data,'$.rev'),0)=?",JSON.stringify({threshold,products,evaluators,round,roundEvaluators,links:links||{},templates:Array.isArray(templates)?templates:[],rev:curRev+1}),curRev);
+   if(!saved.meta?.changes)return fail('다른 화면에서 내용이 바뀌었습니다. 새로고침(F5)한 뒤 다시 저장해 주세요.',409);
    const existing=new Set((await all(db,"SELECT normalized FROM users WHERE role='evaluator'")).map(x=>x.normalized));
    for(const e of evaluators)if(e.name&&!existing.has(norm(e.name))){await makeUser(db,e.name,'evaluator',pin4());existing.add(norm(e.name))}
-   return json({ok:true});
+   return json({ok:true,rev:curRev+1});
   }
   if(p==='/api/admin/round-access'&&m==='GET')return json({rounds:(await all(db,'SELECT round FROM round_access ORDER BY round')).map(x=>x.round)});
   if(p==='/api/admin/round-access'&&m==='PUT'){
@@ -83,7 +85,7 @@ async function handle(req,env){
    const round=String(b.round||'');if(!round||b.confirm!==round)return fail('회차명 확인이 일치하지 않습니다');
    if((await get(db,'SELECT status FROM round_status WHERE round=?',round))?.status!=='closed')return fail('종료된 회차만 삭제할 수 있습니다');
    const s=await state(db);if(!s.products.some(x=>x.round===round))return fail('회차가 존재하지 않습니다');
-   s.products=s.products.filter(x=>x.round!==round);if(s.round===round)s.round=s.products.at(-1)?.round||'';delete s.roundEvaluators?.[round];
+   s.products=s.products.filter(x=>x.round!==round);if(s.round===round)s.round=s.products.at(-1)?.round||'';delete s.roundEvaluators?.[round];if(s.links)delete s.links[round];s.rev=(s.rev||0)+1;
    await db.batch([db.prepare('DELETE FROM sessions WHERE auth_round=?').bind(round),db.prepare('DELETE FROM response_history WHERE round=?').bind(round),db.prepare('DELETE FROM responses WHERE round=?').bind(round),db.prepare('DELETE FROM round_access WHERE round=?').bind(round),db.prepare('DELETE FROM round_status WHERE round=?').bind(round),db.prepare('UPDATE app_state SET data=? WHERE id=1').bind(JSON.stringify(s))]);return json({ok:true});
   }
   if(p==='/api/admin/codes'&&m==='GET')return json({codes:await all(db,"SELECT name,initial_code code FROM users WHERE role='evaluator' ORDER BY name")});
