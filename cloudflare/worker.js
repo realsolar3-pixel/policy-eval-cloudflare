@@ -43,6 +43,7 @@ async function handle(req,env){
    round=String(b.round||'').trim();const st=await state(db);
    const active=await get(db,'SELECT status FROM round_status WHERE round=?',round);
    const access=await get(db,'SELECT * FROM round_access WHERE round=?',round);
+   if(round&&(access||st.roundEvaluators?.[round])&&active?.status!=='open')return fail(active?.status==='closed'?'평가가 종료되어 수정이 불가능합니다.':'아직 평가가 시작되지 않았습니다.',403);
    if(round&&active?.status==='open'&&access&&(st.roundEvaluators?.[round]||[]).some(n=>norm(n)===norm(name)))valid=(await hash(code,access.salt))===access.code_hash;
   }
   if(!valid)return fail('이름·회차 또는 공통 비밀번호가 올바르지 않습니다',401);
@@ -106,7 +107,7 @@ async function handle(req,env){
  if(user.role!=='evaluator')return fail('평가위원 권한이 필요합니다',403);
  const round=String(m==='GET'?u.searchParams.get('round')||'':b.round||'');
  if(user.auth_round!==round)return fail('해당 회차로 다시 로그인해 주세요',403);
- if((await get(db,'SELECT status FROM round_status WHERE round=?',round))?.status!=='open')return fail('평가 진행 중인 회차가 아닙니다',403);
+ {const rs=(await get(db,'SELECT status FROM round_status WHERE round=?',round))?.status;if(rs!=='open')return fail(rs==='closed'?'평가가 종료되어 수정이 불가능합니다.':'아직 평가가 시작되지 않았습니다.',403)}
  if(p==='/api/form'&&m==='GET'){const s=await state(db),products=s.products.filter(x=>x.round===round&&eligible(x,user.name,s.roundEvaluators?.[round]||[]));return json({formId:'mobile-'+round,round,products,threshold:s.threshold,evaluators:s.evaluators.map(x=>x.name)})}
  if(p==='/api/my-response'&&m==='GET'){const r=await get(db,'SELECT data,saved_at FROM responses WHERE user_id=? AND round=?',user.id,round);return json({response:r?JSON.parse(r.data):null,savedAt:r?.saved_at||null})}
  if(p==='/api/submit'&&m==='POST'){
