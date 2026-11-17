@@ -353,3 +353,5 @@ header.ev-head h1{font-weight:800;letter-spacing:-.03em}
 .qr-pw-label input{max-width:280px}
 
 .qr-presentation-sub .qr-hl{font-weight:800;color:var(--blue,#0A64C8)}
+.stage-edit [hidden]{display:none!important}
+.stage-edit.is-off{background:#F6F8FB}
